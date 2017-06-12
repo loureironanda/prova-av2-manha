@@ -1,0 +1,85 @@
+Unilasalle-RJ - AV2
+Aluno: (Fernanda Loureiro - 0050012989)
+Prova Av2 de Laboratorio de Sistemas Operacionais
+Professor: Alex Salgado
+1o. Semestre de 2017   Turno: manhã
+--------------------------------------------------
+1-Faça um script shell que:
+- Pergunte por um nome e crie uma pasta e um arquivo.txt com o mesmo nome inserido.
+
+2-Quantos erros tem no script abaixo? Qual(is) são eles?
+case "$file" in
+    *.txt}
+        echo "É um arquivo de texto."
+        cat "$file"
+        
+    *.gif|*.jpg|*.png}
+        echo "É uma figura."
+        xloadimage "$file"
+        
+    *}
+        echo "Não sei que arquivo é esse."
+        
+esac
+
+3-Usando estrutura de repetição, faça um script para exibir todos os arquivos
+da pasta atual com tamanho maior que 500kb.
+
+4-Usando estrutura de repetição, faça um script para calcular e exibir quantas
+pastas e quantos arquivos tem na pasta atual.
+
+5-Faça um script que leia um numero IP e retorna se endereço responde ou não ao 
+comando ping.
+Além disso, se for digitado um ip vazio, o script deve informar ao usuario.
+
+Respostas aqui:
+1-
+ #!/bin/bash
+
+echo "Informe seu nome:"
+read nome
+
+mkdir $nome
+touch $nome.txt
+
+2- São dois erros. O primeiro são as aspas no "$file", pois não deve possuir,
+e o segundo são as chaves {} que deveriam ser parênteses.
+3-
+#!/bin/bash
+
+for arq in $(ls)
+do
+  if [ du -hsk $arq -gt 500 ] 
+  then
+        echo "$arq"
+  else 
+     echo "$arq - esse arquivo não possui mais que 500kb"
+  fi
+done 
+
+4-
+#!/bin/bash
+cont=0
+for arq in $(ls)
+do
+   echo "$arq"
+done
+ls ../prova2-manha | wc -l
+
+5-
+#!/bin/bash
+echo "Informe o numero IP:"
+read IP
+
+if [ ! -z ping $IP ]; then
+   ping -c 1 $IP
+   if [ $? -eq 0 ]; then
+     echo "Está retornando o IP!"
+   else
+     echo "Não está pingando!"
+   fi
+else
+  echo "IP vazio!"
+fi
+
+
